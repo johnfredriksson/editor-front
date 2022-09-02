@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { EditorService } from '../editor.service';
+
 
 @Component({
   selector: 'app-editor',
@@ -6,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    this.editorService.updateContent(event["editor"]["root"]["innerHTML"]);
+    
+  }
 
-  constructor() { }
+  constructor(private editorService: EditorService) { }
 
   ngOnInit(): void {
   }

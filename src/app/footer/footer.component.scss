@@ -1,0 +1,23 @@
+@import '../../scss/variables.scss';
+
+
+.footer {
+    color: $footer-color;
+    font-family: 'monospace';
+    font-size: 0.9em;
+    text-align: center;
+    position: absolute;
+    width: 100vw;
+    bottom: 1em;
+    
+    a {
+        color: $footer-color;
+        text-decoration: none;
+    }
+    a:hover {
+        color: rgb(110, 110, 165);
+    }
+    p {
+        text-align: center;
+    }
+}

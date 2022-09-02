@@ -1,0 +1,32 @@
+@import '../../scss/variables.scss';
+
+.header {
+    h1 {
+        color: rgb(255, 255, 255);
+        text-align: center;
+        margin-top: 1em;
+        font-size: 6em;
+        font-family: 'Cherry Swash', cursive;
+    }
+}
+
+.tool-bar {
+    text-align: center;
+    margin-bottom: 1em;
+    button {
+        font-size: 1.5em;
+        border: none;
+        background: transparent;
+        color: $button-color;
+        border-bottom: 1px solid $button-color;
+        transition: 0.2s ease-in-out;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+    button:hover {
+        background-color: $button-color;
+        color: white;
+        position: relative;
+        bottom: 1px;
+    }
+
+}

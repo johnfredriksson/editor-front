@@ -1,1 +1,8 @@
-@import '~quill/dist/quill.bubble.css'; 
+@import '../../scss/variables.scss';
+
+.editor {
+    max-width: 1200px;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    min-height: 400px;
+}

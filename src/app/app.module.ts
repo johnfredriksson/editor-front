@@ -4,16 +4,22 @@ import { QuillModule } from 'ngx-quill';
 
 import { AppComponent } from './app.component';
 import { EditorComponent } from './editor/editor.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditorComponent
+    EditorComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    QuillModule
+    QuillModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

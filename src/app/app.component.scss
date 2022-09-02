@@ -1,27 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Cherry+Swash&display=swap');
+@import '../scss/variables.scss';
 
-$backgound-color: rgb(34, 34, 62);
 * {
     margin: 0;
     box-sizing: border-box;
 }
 body {
     background-color: $backgound-color;
-}
-
-.header {
-    h1 {
-        color: rgb(255, 255, 255);
-        text-align: center;
-        margin-top: 1em;
-        font-size: 6em;
-        font-family: 'Bangers', cursive;
-        font-family: 'Cherry Swash', cursive;
-    }
-}
-
-.editor {
-    max-width: 1400px;
-    margin: auto;
-    background-color: rgb(255, 255, 255);
 }
