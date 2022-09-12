@@ -10,7 +10,7 @@ const docsModel = {
 
         return docs.data;
     },
-    createDoc: async function createDoc(newDoc) {
+    createDoc: async function createDoc(newDoc: any) {
         const response = await fetch(`${docsModel.baseUrl}/docs`, {
             body: JSON.stringify(newDoc),
             headers: {
@@ -23,7 +23,7 @@ const docsModel = {
 
         console.log(result);
     },
-    updateDoc: async function updateDoc(doc) {
+    updateDoc: async function updateDoc(doc: any) {
         const response = await fetch(`${docsModel.baseUrl}/docs`, {
             body: JSON.stringify(doc),
             headers: {
@@ -36,9 +36,9 @@ const docsModel = {
 
         console.log(result);
     },
-    deleteDoc: async function deleteDoc(docId) {
-        response = await fetch(`${docsModel.baseUrl}/docs`, {
-            body: JSON.stringify(doc),
+    deleteDoc: async function deleteDoc(docId: any) {
+        const response = await fetch(`${docsModel.baseUrl}/docs`, {
+            body: JSON.stringify(docId),
             headers: {
                 "content-type": "application/json"
             },

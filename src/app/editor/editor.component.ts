@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { EditorService } from '../editor.service';
+import docsModel from '../../models/docs';
 
 
 @Component({
