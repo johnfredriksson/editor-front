@@ -1,3 +1,5 @@
 <div class="editor">
+    <button type="button" (click)="getDocuments()">Get documents</button>
+    <button type="button" (click)="seeDocs()">See documents</button>
     <quill-editor (onEditorChanged)="changedEditor($event)"></quill-editor>
 </div>
