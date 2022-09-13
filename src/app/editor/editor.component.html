@@ -1,6 +1,7 @@
 <div class="editor-tools" *ngIf="document">
-    <button type="button" (click)="updateDocument()"><fa-icon [icon]="faSave"></fa-icon></button>
-    <button type="button" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
+    <input value="title" (keyup)="titleFieldDocument($event)" value="{{titleDoc}}">
+    <button type="button" aria-label="save" (click)="updateDocument()"><fa-icon [icon]="faSave"></fa-icon></button>
+    <button type="button" aria-label="exit" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
 </div>
 <div class="editor">
     <quill-editor *ngIf="document" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)"></quill-editor>

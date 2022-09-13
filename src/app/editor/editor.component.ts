@@ -22,6 +22,7 @@ export class EditorComponent implements OnInit {
   content?: string;
   editor?: Quill;
   titleNew?: any;
+  titleDoc?: any;
   
   constructor(
     private editorService: EditorService,
@@ -69,13 +70,18 @@ export class EditorComponent implements OnInit {
 
     updateDocument() {
       console.log(this.document)
-      this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.document.title, content: this.content, })
+      this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content, })
       .subscribe((data:any) => console.log(data));
     }
 
     titleField(event: any) {
       this.titleNew = event.target.value;
       console.log(this.titleNew)
+    }
+
+    titleFieldDocument(event: any) {
+      this.titleDoc = event.target.value;
+      console.log(this.titleDoc)
     }
 
     getDocument(): any {
@@ -85,6 +91,7 @@ export class EditorComponent implements OnInit {
     openDocument(document: any) {
       this.document = document;
       this.content = document.content;
+      this.titleDoc = document.title;
       this.seeDocs();
     }
 
