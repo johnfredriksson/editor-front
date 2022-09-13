@@ -7,7 +7,7 @@
     <quill-editor *ngIf="document" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)"></quill-editor>
     <div class="menu" *ngIf="!document">
         <div class="new-document">
-            <input class="new-document-title" (keyup)="titleField($event)" placeholder="Enter a name for your new document"><br>
+            <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>
             <button class="new-document-create" type="button" (click)="createDocument()">Create</button>
         </div>
         <div class="existing-documents">
