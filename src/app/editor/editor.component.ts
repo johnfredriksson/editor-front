@@ -82,10 +82,6 @@ export class EditorComponent implements OnInit {
       return this.document;
     }
 
-    setDocument() {
-    this.document = this.documents[0];
-    }
-
     openDocument(document: any) {
       this.document = document;
       this.content = document.content;

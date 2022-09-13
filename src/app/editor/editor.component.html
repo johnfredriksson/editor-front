@@ -1,7 +1,4 @@
-<div class="editor-tools">
-    <button type="button" (click)="setDocuments()">Get documents</button>
-    <button type="button" (click)="seeDocs()">See documents</button>
-    <button type="button" (click)="setDocument()">Set document</button>
+<div class="editor-tools" *ngIf="document">
     <button type="button" (click)="updateDocument()"><fa-icon [icon]="faSave"></fa-icon></button>
     <button type="button" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
 </div>
