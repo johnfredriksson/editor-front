@@ -7,3 +7,96 @@
     min-height: 400px;
     margin-bottom: 10em;
 }
+
+.editor-tools {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.menu {
+    background-color: $backgound-color;
+    height: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-around;
+}
+
+.new-document {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+
+.new-document-title {
+    border: none;
+    width: 20em;
+    margin-bottom: 1em;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.1s all ease-in-out;
+}
+
+.new-document-title:focus {
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.new-document-title:hover {
+    background-color: rgba(255, 255, 255, 0.228);
+    color: white;
+}
+
+.new-document-create {
+    border: none;
+    width: 20em;
+    padding: 10px;
+    color: white;
+    background-color: transparent;
+    transition: all 0.1s ease-in-out;
+}
+
+.new-document-create:hover {
+    background-color: rgba(255, 255, 255, 0.182);
+}
+
+.existing-documents {
+    width: 50%;
+    text-align: right;
+    margin-top: 50px;
+    position: relative;
+    right: 15em;
+    ul {
+        list-style-type: none;
+    }
+}
+
+.existing-document {
+    margin-bottom: 20px;
+    background-color: transparent;
+    border: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.285);
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.638);
+    transition: 0.1s all ease-in-out;
+}
+.existing-document:hover {
+    letter-spacing: 3px;
+    color: white;
+}
+
+.existing-document-delete {
+    margin-left: 20px;
+    background-color: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.448);
+    font-size: 1.5;
+    transition: 0.3s all ease;
+}
+
+.existing-document-delete:hover {
+    transform: scale(1.5);
+    color: white;
+}

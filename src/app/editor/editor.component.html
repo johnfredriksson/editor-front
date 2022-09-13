@@ -1,5 +1,24 @@
-<div class="editor">
-    <button type="button" (click)="getDocuments()">Get documents</button>
+<div class="editor-tools">
+    <button type="button" (click)="setDocuments()">Get documents</button>
     <button type="button" (click)="seeDocs()">See documents</button>
-    <quill-editor (onEditorChanged)="changedEditor($event)"></quill-editor>
+    <button type="button" (click)="setDocument()">Set document</button>
+    <button type="button" (click)="updateDocument()"><fa-icon [icon]="faSave"></fa-icon></button>
+    <button type="button" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
+</div>
+<div class="editor">
+    <quill-editor *ngIf="document" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)"></quill-editor>
+    <div class="menu" *ngIf="!document">
+        <div class="new-document">
+            <input class="new-document-title" (keyup)="titleField($event)" placeholder="Enter a name for your new document"><br>
+            <button class="new-document-create" type="button" (click)="createDocument()">Create</button>
+        </div>
+        <div class="existing-documents">
+            <ul *ngFor="let doc of documents">
+                <li>
+                    <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
+                    <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

@@ -9,7 +9,7 @@ import { Document } from './interfaces/document';
   providedIn: 'root'
 })
 export class EditorService {
-  content: string = "";
+  content?: any;
   currentDocument?: Document;
   documents?: any;
   documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
@@ -20,11 +20,11 @@ export class EditorService {
     this.documents = this.http.get(this.documentsUrl).subscribe((result:any)=>{this.documents = result["data"]})
   }
 
-  printDocuments() {
-    console.log(this.documents)
+  bringDocuments() {
+    return this.documents;
   }
   
-  updateContent(content: string) {
+  updateContent(content: any) {
     this.content = content;
   }
 
