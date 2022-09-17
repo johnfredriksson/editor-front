@@ -52,7 +52,7 @@ export class EditorComponent implements OnInit {
      * Fetch all documents from database and display them.
      */
     setDocuments() {
-      this.documents = this.http.get(this.documentsUrl).subscribe((result:any)=>{this.documents = result["data"]})
+      this.documents = this.http.get(this.documentsUrl).subscribe((result:any)=>{this.documents = result})
     }
 
     /**
@@ -75,9 +75,8 @@ export class EditorComponent implements OnInit {
      * Update a document in the database with "PUT".
      */
     updateDocument() {
-      console.log(this.document)
       this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content, })
-      .subscribe((data:any) => console.log(data));
+      .subscribe();
     }
 
     /**

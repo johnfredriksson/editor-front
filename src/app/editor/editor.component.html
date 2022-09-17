@@ -10,8 +10,8 @@
             <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>
             <button class="new-document-create" type="button" (click)="createDocument()">Create</button>
         </div>
-        <div class="existing-documents">
-            <ul *ngFor="let doc of documents">
+        <div class="existing-documents" *ngIf="documents">
+            <ul *ngFor="let doc of documents.data">
                 <li>
                     <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
                     <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faTrash"></fa-icon></button>
