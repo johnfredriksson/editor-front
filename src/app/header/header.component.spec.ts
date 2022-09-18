@@ -20,4 +20,9 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("should have a H1 element containing 'Editor'", () => {
+    const h1 = fixture.debugElement.nativeElement.querySelector("h1");
+    expect(h1.textContent).toBe("Editor");
+  })
 });

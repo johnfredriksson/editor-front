@@ -8,7 +8,7 @@
     <div class="menu" *ngIf="!document">
         <div class="new-document">
             <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>
-            <button class="new-document-create" type="button" (click)="createDocument()">Create</button>
+            <button id="create" class="new-document-create" type="button" (click)="createDocument()">Create</button>
         </div>
         <div class="existing-documents" *ngIf="documents">
             <ul *ngFor="let doc of documents.data">
