@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 
 import { EditorComponent } from './editor.component';
+
+const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
+
 
 describe('EditorComponent', () => {
   let component: EditorComponent;
@@ -11,7 +15,7 @@ describe('EditorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ EditorComponent ],
-      imports: [ HttpClientTestingModule ]
+      imports: [ HttpClientTestingModule, SocketIoModule.forRoot(config) ]
     })
     .compileComponents();
 

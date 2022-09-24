@@ -4,6 +4,9 @@ import { AppComponent } from './app.component';
 import { EditorComponent } from './editor/editor.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+
+const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,7 +17,7 @@ describe('AppComponent', () => {
         EditorComponent,
         FooterComponent,
       ],
-      imports: [ HttpClientTestingModule ]
+      imports: [ HttpClientTestingModule, SocketIoModule.forRoot(config) ]
     }).compileComponents();
   });
 
