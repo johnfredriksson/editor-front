@@ -4,7 +4,7 @@
     <button type="button" aria-label="exit" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
 </div>
 <div class="editor">
-    <quill-editor *ngIf="document" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)"></quill-editor>
+    <quill-editor *ngIf="document" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)" (keyup)="onKeyUp()"></quill-editor>
     <div class="menu" *ngIf="!document">
         <div class="new-document">
             <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>

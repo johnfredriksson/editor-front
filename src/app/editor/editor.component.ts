@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import Quill from 'quill';
 import { faTrash, faSave, faClose } from '@fortawesome/free-solid-svg-icons';
 
+import { Socket } from "ngx-socket-io";
+
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
@@ -25,8 +27,9 @@ export class EditorComponent implements OnInit {
   titleDoc?: any;
   
   constructor(
-    private editorService: EditorService,
+    public editorService: EditorService,
     private http: HttpClient,
+    private socket: Socket
     ) {  }
 
     /**
@@ -45,7 +48,14 @@ export class EditorComponent implements OnInit {
      */
     changedEditor(event: EditorChangeContent | EditorChangeSelection) {
       this.editor = event["editor"];
-      this.editorService.updateContent(this.editor.getContents())
+      this.editorService.updateContent(this.editor.getContents());
+    }
+
+    /**
+     * Triggered when a key is pressed while editor is focused
+     */
+    onKeyUp() {
+      this.updateSocket({_id: this.document._id, title: this.document.title, content: this.content});
     }
 
     /**
@@ -59,10 +69,11 @@ export class EditorComponent implements OnInit {
      * Create a new document and enter it, saves the document to database.
      */
     createDocument() {
-      this.http.post(this.documentsUrl, {title: this.titleNew, content: "testing"})
+      this.http.post(this.documentsUrl, {title: this.titleNew, content: ""})
       .subscribe({
         next: (data:any) => {
-          this.document = data["data"];
+          // this.document = data["data"];
+          this.setDocuments()
         },
         error: error => {
           console.log(error.message)
@@ -129,7 +140,10 @@ export class EditorComponent implements OnInit {
     openDocument(document: any) {
       this.document = document;
       this.content = document.content;
+      this.editorService.content = document.content;
       this.titleDoc = document.title;
+      this.joinSocketRoom(document);
+      this.getSocket();
     }
 
     /**
@@ -140,6 +154,33 @@ export class EditorComponent implements OnInit {
       this.document = undefined;
       this.content = undefined;
       this.titleDoc = undefined;
+    }
+
+    /**
+     * Enter a socket room for selected document
+     * 
+     * @param doc selected document
+     */
+    joinSocketRoom(doc: any) {
+      this.socket.emit("create", doc["_id"]);
+    }
+
+    /**
+     * Emit selected document to socket room
+     * 
+     * @param doc selected document
+     */
+    updateSocket(doc: any) {
+      this.socket.emit("doc", doc);
+    }
+
+    /**
+     * Receive socket emits on selected documents socket room
+     */
+    getSocket() {
+      this.socket.on("doc", (data: any) => {
+        this.content = data.content;
+      })
     }
 
     /**
