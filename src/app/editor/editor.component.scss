@@ -1,10 +1,10 @@
 @import '../../scss/variables.scss';
 
 .editor {
-    max-width: 1200px;
-    margin: auto;
+    max-width: 60vw;
+    margin: 10vh auto;
     background-color: rgb(255, 255, 255);
-    min-height: 400px;
+    min-height: 60vh;
     margin-bottom: 10em;
 }
 
@@ -30,7 +30,7 @@
     }
     input {
         position: absolute;
-        left:0;
+        left: 28em;
         background-color: transparent;
         border: none;
         color: white;
@@ -44,10 +44,11 @@
 
 .menu {
     background-color: $backgound-color;
-    height: 400px;
+    min-height: 60vh;
     width: 100%;
     display: flex;
     flex-direction: row;
+    margin-top: 10vh;
     // justify-content: space-around;
 }
 
@@ -55,6 +56,7 @@
     width: 50%;
     text-align: center;
     margin: auto;
+    transition: all 0.5s ease-in-out;
 }
 
 .new-document-title {
@@ -106,17 +108,17 @@
     margin-bottom: 20px;
     background-color: transparent;
     border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.285);
+    border-right: 1px solid rgba(255, 255, 255, 0.095);
     padding: 10px;
     color: rgba(255, 255, 255, 0.638);
     transition: 0.1s all ease-in-out;
 }
-.existing-document:hover {
+.existing-document:hover{
     letter-spacing: 3px;
     color: white;
 }
 
-.existing-document-delete {
+.existing-document-delete, .add-user {
     margin-left: 20px;
     background-color: transparent;
     border: none;
@@ -128,4 +130,56 @@
 .existing-document-delete:hover {
     transform: scale(1.5);
     color: white;
+}
+
+.add-user:hover {
+    color: white;
+}
+
+.add-user-form {
+    visibility: hidden;
+    position: relative;
+    input {
+        width: 8em;
+        background-color: rgba(255, 255, 255, 0.038);
+        color: white;
+        border: none;
+    }
+    button {
+        background-color: rgba(255, 255, 255, 0.398);
+        color: white;
+        border: none;
+    }
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.038);
+    }
+}
+
+.add-user-form-wrapper {
+    top: -3.5em;
+    left: 19.2em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    margin: 0;
+    width: 13em;
+    background-color: rgb(34, 34, 62);
+}
+
+.add-user:hover + .add-user-form {
+    visibility: visible;
+    z-index: 100;
+}
+
+.add-user-form:hover {
+    visibility: visible;
+    z-index: 100;
+}
+
+.doc-category {
+    color: rgba(255, 255, 255, 0.035);
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 1em;
+}
+
+.doc-joined {
+    margin-right: 2.4em;
 }

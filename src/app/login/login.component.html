@@ -1,0 +1,12 @@
+<div class="login">
+    <div class="login-form">
+        <input (keyup)="emailField($event)" type="email" class="email" placeholder="email" required="true"><br>
+        <input (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
+        <button (click)="login()"><strong>Login</strong></button>
+        <p class="register-link">Not a user? <a routerLink="/register">Register here.</a></p>
+    </div>
+    <div class="login-text">
+        <p>Welcome back,</p>
+        <p style="color:rgb(170, 101, 12)">The word is yours.</p>
+    </div>
+</div>

@@ -1,3 +1,7 @@
 <div class="header">
-    <h1>Editor</h1>
+    <h1 *ngIf="user">Edit( {{user}} )</h1>
+    <h1 *ngIf="!user">Edit(our)</h1>
+    <div class="header-navbar" *ngIf="token">
+        <button (click)="logout()">Log out</button>
+    </div>
 </div>

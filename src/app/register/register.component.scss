@@ -1,0 +1,58 @@
+.register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form {
+    margin-right: 2em;
+    input {
+        border: 1px solid rgba(255, 255, 255, 0.083);
+        background-color: rgb(43, 43, 72);
+        width: 20em;
+        margin-bottom: 0.5em;
+        padding: 10px;
+        font-family: 'Montserrat', sans-serif;
+        border-radius: 5px;
+        color: wheat;
+        letter-spacing: 0.05em;
+        text-align: center;
+        transition: 0.1s all ease-in-out;
+    }
+    button {
+        border: 1px solid rgba(255, 255, 255, 0.083);
+        background-color: rgb(43, 43, 72);
+        width: 20em;
+        margin-bottom: 0.5em;
+        padding: 10px;
+        border-radius: 5px;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        transition: 0.1s all ease-in-out;
+        cursor: pointer;
+        color: rgb(170, 101, 12)
+    }
+    button:hover {
+        background-color: rgb(53, 53, 83);
+    }
+    .login-link {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.54);
+        font-size: 0.8em;
+        font-weight: 200;
+        letter-spacing: 0.05em;
+    }
+    a:hover {
+        color: white;
+        cursor: pointer;
+    }
+}
+
+.register-text {
+    width: 2em;
+    font-size: 4em;
+    color: white;
+    font-family: 'Cherry Swash', cursive;
+    line-height: 0.8em;
+    text-align: left;
+}

@@ -10,6 +10,10 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
+import { StartComponent } from './start/start.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AppRoutingModule } from './app-routing.module';
 
 const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
 
@@ -19,7 +23,10 @@ const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebs
     AppComponent,
     EditorComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    StartComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +34,8 @@ const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebs
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

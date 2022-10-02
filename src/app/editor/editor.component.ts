@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { EditorChangeContent, EditorChangeSelection, QuillModule } from 'ngx-quill';
 import { EditorService } from '../editor.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 import Quill from 'quill';
-import { faTrash, faSave, faClose } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faSave, faClose, faUserPlus, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { Socket } from "ngx-socket-io";
 
@@ -16,20 +17,27 @@ export class EditorComponent implements OnInit {
   faTrash = faTrash;
   faSave = faSave;
   faClose = faClose;
+  faUserPlus = faUserPlus;
+  faXmarkCircle = faXmarkCircle;
 
 
-  documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
+  documentsUrl = "http://localhost:1337/docs";
+  // documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
   documents?: any;
   document?: any;
   content?: string;
   editor?: Quill;
   titleNew?: any;
   titleDoc?: any;
+  user = localStorage.getItem("user");
+  token = localStorage.getItem("token");
+  addField?: any;
   
   constructor(
     public editorService: EditorService,
     private http: HttpClient,
-    private socket: Socket
+    private socket: Socket,
+    private authService: AuthService
     ) {  }
 
     /**
@@ -62,24 +70,30 @@ export class EditorComponent implements OnInit {
      * Fetch all documents from database and display them.
      */
     setDocuments() {
-      this.documents = this.http.get(this.documentsUrl).subscribe((result:any)=>{this.documents = result})
+      if (this.token) {
+        this.documents = this.http.get(this.documentsUrl+"/"+localStorage.getItem("user"),{headers: {"x-access-token": this.token}}).subscribe((result:any)=>{this.documents = result; console.log(result); console.log(this.documents.data.myDocs)})
+      }
     }
 
     /**
      * Create a new document and enter it, saves the document to database.
      */
     createDocument() {
-      this.http.post(this.documentsUrl, {title: this.titleNew, content: ""})
-      .subscribe({
-        next: (data:any) => {
-          // this.document = data["data"];
-          this.setDocuments()
-        },
-        error: error => {
-          console.log(error.message)
-        }
-      })
-      this.titleDoc = this.titleNew;
+      if (this.token) {
+        this.http.post(this.documentsUrl,
+          {title: this.titleNew, content: "", author: this.user},
+          {headers: {"x-access-token": this.token}})
+        .subscribe({
+          next: (data:any) => {
+            // this.document = data["data"];
+            this.setDocuments()
+          },
+          error: error => {
+            console.log(error.message)
+          }
+        })
+        this.titleDoc = this.titleNew;
+      }
     }
 
     /**
@@ -183,10 +197,32 @@ export class EditorComponent implements OnInit {
       })
     }
 
+    spitTest(event: any) {
+      this.addField = event
+    }
+
+    addUser(id: string) {
+      if (this.token) {
+        const newUser = this.addField.srcElement.value;
+        const docID = id;
+        console.log(newUser)
+  
+        this.http.put((this.documentsUrl+"/invite"),
+        {_id: docID, newUser: newUser},
+        {headers: {"x-access-token": this.token}})
+        .subscribe({
+          next: (data:any) => {
+  
+          }
+        })
+      }
+      }
+
     /**
      * Functions to fire on init
      */
   ngOnInit(): void {
+    // this.authService.checkToken();
     this.setDocuments()
   }
 

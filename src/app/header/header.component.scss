@@ -3,9 +3,9 @@
 .header {
     h1 {
         color: rgb(255, 255, 255);
-        text-align: center;
-        margin-top: 1em;
-        font-size: 6em;
+        margin-top: 0.1em;
+        margin-left: 0.5em;
+        font-size: 4em;
         font-family: 'Cherry Swash', cursive;
     }
 }
@@ -28,5 +28,19 @@
         position: relative;
         bottom: 1px;
     }
+}
 
+.header-navbar {
+    position: absolute;
+    top: 2.5em;
+    right: 2.5em;
+    button {
+        background-color: rgba(255, 255, 255, 0.064);
+        color: rgba(255, 255, 255, 0.648);
+        border: none;
+        padding: 1em;
+    }
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.038);
+    }
 }

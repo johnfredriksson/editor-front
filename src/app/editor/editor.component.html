@@ -10,13 +10,26 @@
             <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>
             <button id="create" class="new-document-create" type="button" (click)="createDocument()">Create</button>
         </div>
-        <div class="existing-documents" *ngIf="documents">
-            <ul *ngFor="let doc of documents.data">
-                <li>
-                    <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
-                    <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faTrash"></fa-icon></button>
-                </li>
-            </ul>
+        <div class="existing-documents" *ngIf="documents.data">
+            <div>
+                <h2 *ngIf="documents.data.myDocs" class="doc-category">My documents</h2>
+                <ul *ngFor="let doc of documents.data.myDocs">
+                    <li>
+                        <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
+                        <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                        <fa-icon class="add-user" [icon]="faUserPlus"></fa-icon><div class="add-user-form"><div class="add-user-form-wrapper" style="position:absolute;"><input (keyup)="spitTest($event)"><button (click)="addUser(doc._id)">Add</button></div></div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2 *ngIf="documents.data.sharedDocs" class="doc-category">Joined documents</h2>
+                <ul *ngFor="let doc of documents.data.sharedDocs">
+                    <li class="doc-joined">
+                        <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
+                        <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faXmarkCircle"></fa-icon></button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
