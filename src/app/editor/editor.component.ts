@@ -21,8 +21,8 @@ export class EditorComponent implements OnInit {
   faXmarkCircle = faXmarkCircle;
 
 
-  documentsUrl = "http://localhost:1337/docs";
-  // documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
+  // documentsUrl = "http://localhost:1337/docs";
+  documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
   documents?: any;
   document?: any;
   content?: string;

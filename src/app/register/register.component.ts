@@ -11,7 +11,9 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent implements OnInit {
   private email?: string
   private password?: string
-  public url = "http://localhost:1337/auth/register"
+  // public url = "http://localhost:1337/auth/register"
+  public url = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/register";
+
   public flash?: string
 
   constructor(
