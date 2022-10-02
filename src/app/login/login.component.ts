@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   private email?: string;
   private password?: string;
   public url = "http://localhost:1337/auth/login";
+  public flash?: string;
 
   constructor(
     private http: HttpClient,
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
         });
       },
       error: error => {
-        console.log(error.message)
+        this.flash = error.error.errors.message;
       }
     })
   }

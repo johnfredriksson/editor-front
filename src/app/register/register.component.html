@@ -4,6 +4,7 @@
         <input (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
         <button (click)="register()"><strong>Join</strong></button>
         <p class="login-link">Already a user? <a routerLink="/login">Login here.</a></p>
+        <p class="flash-auth">{{flash}}</p>
     </div>
     <div class="register-text">
         <p>Create your <strong style="color:rgb(170, 101, 12);padding-left:0.3em;margin-top:0.2em;">free</strong> account today,</p>

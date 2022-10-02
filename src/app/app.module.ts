@@ -17,7 +17,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +34,7 @@ const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebs
     HttpClientModule,
     FormsModule,
     SocketIoModule.forRoot(config),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

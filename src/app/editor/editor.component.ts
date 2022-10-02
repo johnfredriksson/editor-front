@@ -71,7 +71,7 @@ export class EditorComponent implements OnInit {
      */
     setDocuments() {
       if (this.token) {
-        this.documents = this.http.get(this.documentsUrl+"/"+localStorage.getItem("user"),{headers: {"x-access-token": this.token}}).subscribe((result:any)=>{this.documents = result; console.log(result); console.log(this.documents.data.myDocs)})
+        this.documents = this.http.get(this.documentsUrl+"/"+localStorage.getItem("user"),{headers: {"x-access-token": this.token}}).subscribe((result:any)=>{this.documents = result;})
       }
     }
 
