@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
           localStorage.setItem("user", data.email);
           localStorage.setItem("token", data.token);
           this.authService.setToken(data.token);
-          this.router.navigate(["editor"])
+          this.router.navigate(["editor-page"])
           .then(() => {
             window.location.reload();
           });

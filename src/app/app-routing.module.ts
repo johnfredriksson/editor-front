@@ -8,13 +8,13 @@ const routes: Routes = [
   {path: "", redirectTo: "/register", pathMatch: "full"},
   {path: "register", component: RegisterComponent},
   {path: "login", component: LoginComponent},
-  {path: "editor", component: EditorComponent}
+  {path: "editor-page", component: EditorComponent}
 ];
 
 @NgModule({
   declarations: [],
   imports: [
-    [RouterModule.forRoot(routes)]
+    [RouterModule.forRoot(routes, {useHash: true})]
   ],
   exports: [RouterModule]
 })

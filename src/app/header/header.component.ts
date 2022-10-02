@@ -22,15 +22,11 @@ export class HeaderComponent implements OnInit {
    */
   logout() {
     localStorage.clear();
+    this.user = ""
+    this.token = ""
     this.router.navigate(["login"])
     .then(() => {
-      window.location.reload();
+      // window.location.reload();
     });
   }
-
-  tester() {
-    console.log(localStorage)
-    console.log(this.token)
-  }
-
 }
