@@ -158,7 +158,6 @@ export class EditorComponent implements OnInit {
       this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content }}`})
       .subscribe({
         next: (data: any) => {
-          console.log(data)
           const document = data.data.document
           this.document = document;
           this.content = document.content;
