@@ -21,8 +21,9 @@ export class EditorComponent implements OnInit {
   faXmarkCircle = faXmarkCircle;
 
 
-  // documentsUrl = "http://localhost:1337/docs";
+  documentsUrlDev = "http://localhost:1337/docs";
   documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
+  graphQLUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/graphql";
   documents?: any;
   document?: any;
   content?: string;
@@ -71,7 +72,9 @@ export class EditorComponent implements OnInit {
      */
     setDocuments() {
       if (this.token) {
-        this.documents = this.http.get(this.documentsUrl+"/"+localStorage.getItem("user"),{headers: {"x-access-token": this.token}}).subscribe((result:any)=>{this.documents = result;})
+        const user = localStorage.getItem("user");
+        
+        this.documents = this.http.post(this.graphQLUrl,{query: `{ myDocs(user: "${user}") { _id title } sharedDocs(user: "${user}") { _id title }}`}).subscribe((result:any)=>{this.documents = result;})
       }
     }
 
@@ -151,13 +154,20 @@ export class EditorComponent implements OnInit {
      * 
      * @param document chosen document object
      */
-    openDocument(document: any) {
-      this.document = document;
-      this.content = document.content;
-      this.editorService.content = document.content;
-      this.titleDoc = document.title;
-      this.joinSocketRoom(document);
-      this.getSocket();
+    openDocument(id: any) {
+      this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content }}`})
+      .subscribe({
+        next: (data: any) => {
+          console.log(data)
+          const document = data.data.document
+          this.document = document;
+          this.content = document.content;
+          this.editorService.content = document.content;
+          this.titleDoc = document.title;
+          this.joinSocketRoom(document);
+          this.getSocket();
+        }
+      })
     }
 
     /**
