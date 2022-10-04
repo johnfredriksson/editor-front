@@ -25,7 +25,7 @@
                 <h2 *ngIf="documents.data.sharedDocs" class="doc-category">Joined documents</h2>
                 <ul *ngFor="let doc of documents.data.sharedDocs">
                     <li class="doc-joined">
-                        <button class="existing-document" (click)="openDocument(doc)">{{doc.title}}</button>
+                        <button class="existing-document" (click)="openDocument(doc._id)">{{doc.title}}</button>
                         <button class="existing-document-delete" type="button" (click)="deleteDocument(doc._id)"><fa-icon [icon]="faXmarkCircle"></fa-icon></button>
                     </li>
                 </ul>
