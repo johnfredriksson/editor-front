@@ -1,12 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { EditorChangeContent, EditorChangeSelection, QuillModule } from 'ngx-quill';
+import { Component, OnInit } from '@angular/core';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { EditorService } from '../editor.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../auth.service';
+import { HttpClient } from '@angular/common/http';
 import Quill from 'quill';
-import { faTrash, faSave, faClose, faUserPlus, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-
+import { faTrash, faSave, faClose, faUserPlus, faXmarkCircle, faDownload, faPlay, faComment } from '@fortawesome/free-solid-svg-icons';
 import { Socket } from "ngx-socket-io";
+
+import * as pdfMake from "pdfmake/build/pdfmake";  
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+declare var require: any;
+const htmlToPdfmake = require("html-to-pdfmake");
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-editor',
@@ -14,31 +18,62 @@ import { Socket } from "ngx-socket-io";
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  // ICONS
   faTrash = faTrash;
   faSave = faSave;
   faClose = faClose;
   faUserPlus = faUserPlus;
   faXmarkCircle = faXmarkCircle;
+  faDownload = faDownload;
+  faPlay = faPlay;
+  faComment = faComment;
 
-
+  // API URLS
   documentsUrlDev = "http://localhost:1337/docs";
   documentsUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/docs";
   graphQLUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/graphql";
+  //
+
+  // EDITOR
   documents?: any;
   document?: any;
   content?: string;
   editor?: Quill;
+  mode?: any;
+  //
+
+  // CREATE A NEW DOC
   titleNew?: any;
   titleDoc?: any;
+  modeNew = "text";
   user = localStorage.getItem("user");
   token = localStorage.getItem("token");
   addField?: any;
+  //
+
+  // CODE EDITOR
+  theme = 'vs-dark';
+  codeModel = {
+    language: 'javascript',
+    uri: 'main.json',
+    value: 'console.log("Ready!")',
+  };
+  options = {
+    contextmenu: true,
+    minimap: {
+      enabled: true,
+    },
+  };
+  //
+
+  onCodeChanged(value: any) {
+    this.content = value;
+  }
   
   constructor(
     public editorService: EditorService,
     private http: HttpClient,
     private socket: Socket,
-    private authService: AuthService
     ) {  }
 
     /**
@@ -48,6 +83,9 @@ export class EditorComponent implements OnInit {
      */
     created(event: Quill) {
       this.editor = event
+      if (this.content) {
+        this.editor.setContents(JSON.parse(this.content))
+      }
     }
 
     /**
@@ -84,7 +122,7 @@ export class EditorComponent implements OnInit {
     createDocument() {
       if (this.token) {
         this.http.post(this.documentsUrl,
-          {title: this.titleNew, content: "", author: this.user},
+          {title: this.titleNew, content: "", author: this.user, mode: this.modeNew},
           {headers: {"x-access-token": this.token}})
         .subscribe({
           next: (data:any) => {
@@ -103,8 +141,14 @@ export class EditorComponent implements OnInit {
      * Update a document in the database with "PUT".
      */
     updateDocument() {
-      this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content, })
-      .subscribe();
+      if (this.document.mode == "code") {
+        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content, })
+        .subscribe();
+        this.editorService.updateContent(this.editor?.getContents());
+      } else {
+        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: JSON.stringify(this.editor?.getContents()), })
+        .subscribe();
+      }
     }
 
     /**
@@ -141,6 +185,15 @@ export class EditorComponent implements OnInit {
     }
 
     /**
+     * Update the value for new documents mode
+     * 
+     * @param event the change in input field
+     */
+    modeFieldNew(event: any) {
+      this.modeNew = event.target.value;
+    }
+
+    /**
      * Get a chosen document object
      * 
      * @returns chosen document object
@@ -155,13 +208,27 @@ export class EditorComponent implements OnInit {
      * @param document chosen document object
      */
     openDocument(id: any) {
-      this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content }}`})
+      this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content mode }}`})
       .subscribe({
         next: (data: any) => {
           const document = data.data.document
           this.document = document;
-          this.content = document.content;
-          this.editorService.content = document.content;
+          if (document.mode == "code") {
+            this.codeModel = {
+              language: 'javascript',
+              uri: 'main.json',
+              value: document.content,
+            };
+            this.content = document.content;
+          } else {
+            // this.editorService.content = document.content;
+            // console.log(document.content)
+            const test = JSON.parse(document.content)
+            this.content = document.content;
+            console.log(test.ops);
+            console.log(this.editor)
+          }
+          // this.content = document.content;
           this.titleDoc = document.title;
           this.joinSocketRoom(document);
           this.getSocket();
@@ -177,6 +244,54 @@ export class EditorComponent implements OnInit {
       this.document = undefined;
       this.content = undefined;
       this.titleDoc = undefined;
+    }
+
+    /**
+     * Save as pdf
+     */
+    async saveAsPdf() {
+      if (this.editor) {
+        var html = htmlToPdfmake(this.content);
+        const documentDefinition = { content: html, info: { title: this.titleDoc } };
+        pdfMake.createPdf(documentDefinition).download(this.titleDoc + ".pdf"); 
+      }
+    }
+
+    /**
+     * Run code
+     * 
+     * Encode string in base64, supply it to API,
+     * Get response in base64, decode it, log it
+     */
+    async runCode() {
+      if (this.content) {
+        const formatCode = btoa(this.content);
+
+        this.http.post("https://execjs.emilfolino.se/code",
+          {code: formatCode},)
+        .subscribe({
+          next: (data:any) => {
+            console.log(atob(data["data"]))
+          },
+          error: error => {
+            console.log(error.message)
+          }
+        })
+      }
+    }
+
+    /**
+     * Comment function
+     */
+    comment() {
+      if (this.editor) {
+        const ranges = this.editor.getSelection();
+        if (ranges) {
+          this.editor.formatText(ranges.index, ranges.length, {
+            background: "#fff72b"
+          });
+        }
+      }
     }
 
     /**
@@ -202,7 +317,15 @@ export class EditorComponent implements OnInit {
      */
     getSocket() {
       this.socket.on("doc", (data: any) => {
-        this.content = data.content;
+        if (this.document.mode == "code") {
+          this.codeModel = {
+            language: 'javascript',
+            uri: 'main.json',
+            value: data.content,
+          };
+        } else {
+          this.content = data.content;
+        }
       })
     }
 
@@ -231,7 +354,6 @@ export class EditorComponent implements OnInit {
      * Functions to fire on init
      */
   ngOnInit(): void {
-    // this.authService.checkToken();
     this.setDocuments()
   }
 
