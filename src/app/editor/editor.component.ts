@@ -40,6 +40,7 @@ export class EditorComponent implements OnInit {
   content?: string;
   editor?: Quill;
   mode?: any;
+  comments = <any>[];
   //
 
   // CREATE A NEW DOC
@@ -102,7 +103,11 @@ export class EditorComponent implements OnInit {
      * Triggered when a key is pressed while editor is focused
      */
     onKeyUp() {
-      this.updateSocket({_id: this.document._id, title: this.document.title, content: this.content});
+      if (this.document.mode == "code") {
+        this.updateSocket({_id: this.document._id, title: this.document.title, content: this.content});
+      } else {
+        this.updateSocket({_id: this.document._id, title: this.document.title, content: JSON.stringify(this.editor?.getContents()), comments: this.comments});
+      }
     }
 
     /**
@@ -122,7 +127,7 @@ export class EditorComponent implements OnInit {
     createDocument() {
       if (this.token) {
         this.http.post(this.documentsUrl,
-          {title: this.titleNew, content: "", author: this.user, mode: this.modeNew},
+          {title: this.titleNew, content: "", author: this.user, mode: this.modeNew, comments: []},
           {headers: {"x-access-token": this.token}})
         .subscribe({
           next: (data:any) => {
@@ -142,11 +147,11 @@ export class EditorComponent implements OnInit {
      */
     updateDocument() {
       if (this.document.mode == "code") {
-        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content, })
+        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: this.content })
         .subscribe();
         this.editorService.updateContent(this.editor?.getContents());
       } else {
-        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: JSON.stringify(this.editor?.getContents()), })
+        this.http.put<any>(this.documentsUrl, {_id: this.document._id, title: this.titleDoc, content: JSON.stringify(this.editor?.getContents()), comments: this.comments })
         .subscribe();
       }
     }
@@ -208,11 +213,12 @@ export class EditorComponent implements OnInit {
      * @param document chosen document object
      */
     openDocument(id: any) {
-      this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content mode }}`})
+      this.http.post(this.graphQLUrl,{query: `{ document(id: "${id}") { _id title content mode comments { text color ranges author } }}`})
       .subscribe({
         next: (data: any) => {
           const document = data.data.document
           this.document = document;
+          console.log(document)
           if (document.mode == "code") {
             this.codeModel = {
               language: 'javascript',
@@ -223,10 +229,11 @@ export class EditorComponent implements OnInit {
           } else {
             // this.editorService.content = document.content;
             // console.log(document.content)
-            const test = JSON.parse(document.content)
             this.content = document.content;
-            console.log(test.ops);
-            console.log(this.editor)
+            if (document.comments) {
+              this.comments = document.comments;
+            }
+            console.log(this.comments)
           }
           // this.content = document.content;
           this.titleDoc = document.title;
@@ -284,14 +291,40 @@ export class EditorComponent implements OnInit {
      * Comment function
      */
     comment() {
+      console.log(this.comments)
       if (this.editor) {
+        const rN = () => {
+          return Math.round(Math.random() * (255 - 0));
+        }
         const ranges = this.editor.getSelection();
+        const comment = prompt("Enter your comment");
+        const color = `rgba(${rN()},${rN()},${rN()},0.8)`;
+        const commentObject = {
+          text: comment,
+          color: color,
+          ranges: JSON.stringify(ranges),
+          author: this.user
+        };
+        this.comments.push(commentObject);
+        this.content = JSON.stringify(this.editor.getContents());
+
         if (ranges) {
           this.editor.formatText(ranges.index, ranges.length, {
-            background: "#fff72b"
+            background: color
           });
         }
+        this.onKeyUp();
       }
+    }
+
+    /**
+     * Delete a comment
+     */
+    deleteComment(comment: any) {
+      this.comments = this.comments.filter(function(e: any) { return e.color !== comment.color });
+      const ranges = JSON.parse(comment.ranges);
+      this.editor?.removeFormat(ranges.index, ranges.length);
+      this.onKeyUp();
     }
 
     /**
@@ -324,7 +357,8 @@ export class EditorComponent implements OnInit {
             value: data.content,
           };
         } else {
-          this.content = data.content;
+          this.editor?.setContents(JSON.parse(data.content));
+          this.comments = data.comments;
         }
       })
     }

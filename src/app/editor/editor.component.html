@@ -6,6 +6,13 @@
     <button *ngIf="document.mode == 'code'" type="button" aria-label="run" (click)="runCode()"><fa-icon [icon]="faPlay"></fa-icon></button>
     <button *ngIf="document.mode != 'code'" type="button" aria-label="comment" (click)="comment()"><fa-icon [icon]="faComment"></fa-icon></button>
 </div>
+<div class="comments" *ngIf="document && document.mode != 'code'">
+    <div class="comment" *ngFor="let comment of comments" style="backgroundColor:{{comment.color}};">
+        <p class="byline"><em>{{comment.author}} said:</em></p>
+        <p class="comment-text">{{comment.text}}</p>
+        <button class="comment-delete" type="button" aria-label="exit" (click)="deleteComment(comment)"><fa-icon [icon]="faClose"></fa-icon></button>
+    </div>
+</div>
 <div class="editor">
     <div *ngIf="document">
     <ngs-code-editor class="code-editor" *ngIf="document.mode == 'code'" (keyup)="onKeyUp()" styles="height:100%;" [theme]="theme"[codeModel]="codeModel" [options]="options" (valueChanged)="onCodeChanged($event)"></ngs-code-editor>

@@ -194,3 +194,70 @@
 .doc-joined {
     margin-right: 2.4em;
 }
+
+.comments {
+    position: absolute;
+    top: 30vh;
+    left: 2vw;
+    transition: all 0.3s ease-in-out;
+    width: 15vw;
+    display: inline;
+}
+
+.comment {
+    position: relative;
+    color: white;
+    padding: 0.3em;
+    border-radius: 1em;
+    margin: 0 0.3em 0.3em 0;
+    min-width: 3em;
+    min-height: 2em;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+    .comment-text {
+        transition: all 0.3s ease-in-out;
+        margin: none;
+        color: transparent;
+    }
+    .byline {
+        position: absolute;
+        top: 0.1em;
+        left: 3em;
+        font-weight: 100;
+        font-size: x-small;
+        transition: all 0.3s ease-in-out;
+        margin: none;
+        color: transparent;
+    }
+}
+
+.comment-delete {
+    position: absolute;
+    left: -0.7em;
+    top: 0.1em;
+    background-color: transparent;
+    color: transparent;
+    border: none;
+    font-size: 1em;
+    padding: 0;
+    margin: 0;
+    transition: all 0.1s ease-in-out;
+}
+
+.comment-delete:hover {
+    transform: scale(1.2);
+}
+
+.comment:hover {
+    padding: 1em;
+    .comment-text {
+        color: white;
+    }
+    .byline {
+        left: 0.5em;
+        color: rgba(255, 255, 255, 0.686);
+    }
+    .comment-delete {
+        color: white;
+    }
+}
