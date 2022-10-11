@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,23 +9,19 @@ import { AuthService } from '../auth.service';
 export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
-    private authService: AuthService,
   ) {}
-  token = localStorage.getItem("token");
-  user = localStorage.getItem("user");
+  token = <string>localStorage.getItem("token");
+  user = <string>localStorage.getItem("user");
   ngOnInit(): void {
   }
 
   /**
    * Log out user and clear local storage
    */
-  logout() {
+  logout(): void {
     localStorage.clear();
     this.user = ""
     this.token = ""
     this.router.navigate(["login"])
-    .then(() => {
-      // window.location.reload();
-    });
   }
 }

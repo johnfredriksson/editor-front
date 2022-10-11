@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private url = "http://localhost:1337/auth";
+  private invite?: any;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -17,5 +18,13 @@ export class AuthService {
   }
   getToken() {
     return this.token
+  }
+
+  setInvite(inviteObj: any) {
+    this.invite = inviteObj;
+  }
+
+  getInvite(): any {
+    return this.invite
   }
 }

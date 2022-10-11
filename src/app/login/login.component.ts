@@ -11,8 +11,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
   private email?: string;
   private password?: string;
-  // public url = "http://localhost:1337/auth/login";
-  public url = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/login";
+  public url = <string>"https://jsramverk-editor-jofr21.azurewebsites.net/auth/login";
   public flash?: string;
 
   constructor(
@@ -23,7 +22,7 @@ export class LoginComponent implements OnInit {
   /**
    * Login user
    */
-   login() {
+   login():void {
     this.http.post(this.url,{ email: this.email, password: this.password})
     .subscribe({
       next: (data:any) => {
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
      * 
      * @param event the change in input field
      */
-   emailField(event: any) {
+   emailField(event: any): void {
     this.email = event.target.value;
   }
 
@@ -56,7 +55,7 @@ export class LoginComponent implements OnInit {
      * 
      * @param event the change in input field
      */
-   passwordField(event: any) {
+   passwordField(event: any): void {
     this.password = event.target.value;
   }
   ngOnInit(): void {

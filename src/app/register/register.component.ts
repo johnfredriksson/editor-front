@@ -11,15 +11,15 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent implements OnInit {
   private email?: string
   private password?: string
-  // public url = "http://localhost:1337/auth/register"
-  public url = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/register";
+  public url: string = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/register";
+  public inviteUrl: string = "https://jsramverk-editor-jofr21.azurewebsites.net/invite";
 
   public flash?: string
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
   /**
@@ -47,20 +47,20 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-     * Update the value for email field.
-     * 
-     * @param event the change in input field
-     */
-   emailField(event: any) {
+   * Update the value for email field.
+   * 
+   * @param event the change in input field
+   */
+   emailField(event: any): void {
     this.email = event.target.value;
   }
 
   /**
-     * Update the value for password.
-     * 
-     * @param event the change in input field
-     */
-   passwordField(event: any) {
+   * Update the value for password.
+   * 
+   * @param event the change in input field
+   */
+   passwordField(event: any): void {
     this.password = event.target.value;
   }
 
