@@ -1,7 +1,7 @@
 <div class="register">
     <div class="register-form" *ngIf="inviteObject">
-        <input (keyup)="emailField($event)" readonly value="{{inviteObject.data.invite.email}}" type="email" class="email" placeholder="email" required="true"><br>
-        <input (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
+        <input id="register-invite-email" (keyup)="emailField($event)" readonly value="{{inviteObject.data.invite.email}}" type="email" class="email" placeholder="email" required="true"><br>
+        <input id="register-invite-password" (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
         <button (click)="register()"><strong>Join</strong></button>
         <p class="flash-auth">{{flash}}</p>
     </div>

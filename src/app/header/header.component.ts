@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,15 +6,13 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   constructor(
     private router: Router,
   ) {}
   token = <string>localStorage.getItem("token");
   user = <string>localStorage.getItem("user");
-  ngOnInit(): void {
-  }
-
+  
   /**
    * Log out user and clear local storage
    */

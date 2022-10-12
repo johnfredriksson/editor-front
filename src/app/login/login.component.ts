@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   private email?: string;
   private password?: string;
   public url = <string>"https://jsramverk-editor-jofr21.azurewebsites.net/auth/login";
@@ -58,7 +58,4 @@ export class LoginComponent implements OnInit {
    passwordField(event: any): void {
     this.password = event.target.value;
   }
-  ngOnInit(): void {
-  }
-
 }

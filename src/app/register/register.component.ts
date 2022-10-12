@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -8,11 +8,11 @@ import { AuthService } from '../auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   private email?: string
   private password?: string
-  public url: string = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/register";
-  public inviteUrl: string = "https://jsramverk-editor-jofr21.azurewebsites.net/invite";
+  public url = "https://jsramverk-editor-jofr21.azurewebsites.net/auth/register";
+  public inviteUrl = "https://jsramverk-editor-jofr21.azurewebsites.net/invite";
 
   public flash?: string
 
@@ -63,8 +63,4 @@ export class RegisterComponent implements OnInit {
    passwordField(event: any): void {
     this.password = event.target.value;
   }
-
-  ngOnInit(): void {
-  }
-
 }

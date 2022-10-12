@@ -80,7 +80,6 @@ export class RegisterInviteComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.inviteObject = data;
-        console.log(this.inviteObject.data.invite.email)
       }
     })
   }

@@ -1,10 +1,10 @@
 <div class="login">
     <div class="login-form">
-        <input (keyup)="emailField($event)" type="email" class="email" placeholder="email" required="true"><br>
-        <input (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
+        <input id="login-email" (keyup)="emailField($event)" type="email" class="email" placeholder="email" required="true"><br>
+        <input id="login-password" (keyup)="passwordField($event)" type="password" class="password" placeholder="password" required="true"><br>
         <button (click)="login()"><strong>Login</strong></button>
         <p class="register-link">Not a user? <a routerLink="/register">Register here.</a></p>
-        <p class="flash-auth">{{flash}}</p>
+        <p id="flash" class="flash-auth">{{flash}}</p>
     </div>
     <div class="login-text">
         <p>Welcome back,</p>

@@ -2,9 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { EditorComponent } from './editor/editor.component';
-import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
 
@@ -15,9 +15,9 @@ describe('AppComponent', () => {
         AppComponent,
         HeaderComponent,
         EditorComponent,
-        FooterComponent,
       ],
-      imports: [ HttpClientTestingModule, SocketIoModule.forRoot(config) ]
+      imports: [ HttpClientTestingModule, SocketIoModule.forRoot(config) ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
   });
 

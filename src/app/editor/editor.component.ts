@@ -11,7 +11,7 @@ import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { AuthService } from '../auth.service';
 
-declare var require: any;
+declare let require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -121,7 +121,8 @@ export class EditorComponent implements OnInit {
       if (this.token) {
         const user = localStorage.getItem("user");
         
-        this.documents = this.http.post(this.graphQLUrl,{query: `{ myDocs(user: "${user}") { _id title } sharedDocs(user: "${user}") { _id title }}`}).subscribe((result:any)=>{this.documents = result;})
+        this.documents = this.http.post(this.graphQLUrl,{query: `{ myDocs(user: "${user}") { _id title } sharedDocs(user: "${user}") { _id title }}`})
+        .subscribe((result:any)=>{this.documents = result;})
       }
     }
 
@@ -134,7 +135,7 @@ export class EditorComponent implements OnInit {
           {title: this.titleNew, content: "", author: this.user, mode: this.modeNew, comments: []},
           {headers: {"x-access-token": this.token}})
         .subscribe({
-          next: (data:any) => {
+          next: () => {
             this.setDocuments()
           },
           error: error => {
@@ -167,7 +168,7 @@ export class EditorComponent implements OnInit {
     deleteDocument(id: string): void {
       this.http.delete(this.documentsUrl, {body:{_id: id}})
       .subscribe({
-        next: (data:any) => {
+        next: () => {
           this.setDocuments()
         }
       })
@@ -235,6 +236,7 @@ export class EditorComponent implements OnInit {
             }
           }
 
+          console.log(this.documents)
           this.content = document.content;
           this.titleDoc = document.title;
           this.joinSocketRoom(document);
@@ -258,7 +260,7 @@ export class EditorComponent implements OnInit {
      */
     async saveAsPdf(): Promise<void> {
       if (this.editor) {
-        var html = htmlToPdfmake(this.editor.root.innerHTML);
+        const html = htmlToPdfmake(this.editor.root.innerHTML);
         const documentDefinition = { content: html, info: { title: this.titleDoc } };
 
         pdfMake.createPdf(documentDefinition).download(this.titleDoc + ".pdf"); 
@@ -297,6 +299,7 @@ export class EditorComponent implements OnInit {
           return Math.round(Math.random() * (255 - 0));
         }
         const ranges = this.editor.getSelection();
+        console.log(ranges)
         const comment = prompt("Enter your comment");
         const color = `rgba(${rN()},${rN()},${rN()},0.8)`;
         const commentObject = {

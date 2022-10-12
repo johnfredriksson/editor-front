@@ -13,12 +13,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { EditorComponent } from './editor/editor.component';
-import { StartComponent } from './start/start.component';
 import { LoginComponent } from './login/login.component';
 import { InviteComponent } from './invite/invite.component';
 import { RegisterComponent } from './register/register.component';
 import { RegisterInviteComponent } from './register-invite/register-invite.component';
-import { FooterComponent } from './footer/footer.component';
 
 const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebsites.net", options: {} };
 
@@ -26,9 +24,7 @@ const config: SocketIoConfig = { url: "https://jsramverk-editor-jofr21.azurewebs
   declarations: [
     AppComponent,
     EditorComponent,
-    FooterComponent,
     HeaderComponent,
-    StartComponent,
     LoginComponent,
     RegisterComponent,
     InviteComponent,

@@ -12,3 +12,23 @@ body {
 .register, .login {
     height: 80vh
 }
+
+.footer {
+    color: $footer-color;
+    font-family: 'monospace';
+    font-size: 0.9em;
+    text-align: center;
+    width: 100vw;
+    
+    a {
+        color: $footer-color;
+        text-decoration: none;
+    }
+    a:hover {
+        color: rgb(110, 110, 165);
+    }
+    p {
+        text-align: center;
+    }
+}
+

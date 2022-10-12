@@ -3,10 +3,10 @@
     <button type="button" aria-label="save" (click)="updateDocument()"><fa-icon [icon]="faSave"></fa-icon></button>
     <button type="button" aria-label="exit" (click)="closeDocument()"><fa-icon [icon]="faClose"></fa-icon></button>
     <button type="button" aria-label="download" (click)="saveAsPdf()"><fa-icon [icon]="faDownload"></fa-icon></button>
-    <button *ngIf="document.mode == 'code'" type="button" aria-label="run" (click)="runCode()"><fa-icon [icon]="faPlay"></fa-icon></button>
-    <button *ngIf="document.mode != 'code'" type="button" aria-label="comment" (click)="comment()"><fa-icon [icon]="faComment"></fa-icon></button>
+    <button id="run-button" *ngIf="document.mode == 'code'" type="button" aria-label="run" (click)="runCode()"><fa-icon [icon]="faPlay"></fa-icon></button>
+    <button id="download-button" *ngIf="document.mode != 'code'" type="button" aria-label="comment" (click)="comment()"><fa-icon [icon]="faComment"></fa-icon></button>
 </div>
-<div class="comments" *ngIf="document && document.mode != 'code'">
+<div id="comments" class="comments" *ngIf="document && document.mode != 'code'">
     <div class="comment" *ngFor="let comment of comments" style="backgroundColor:{{comment.color}};">
         <p class="byline"><em>{{comment.author}} said:</em></p>
         <p class="comment-text">{{comment.text}}</p>
@@ -14,11 +14,14 @@
     </div>
 </div>
 <div class="editor">
+
     <div *ngIf="document">
-    <ngs-code-editor class="code-editor" *ngIf="document.mode == 'code'" (keyup)="onKeyUp()" styles="height:100%;" [theme]="theme"[codeModel]="codeModel" [options]="options" (valueChanged)="onCodeChanged($event)"></ngs-code-editor>
-    <quill-editor *ngIf="document.mode != 'code'" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)" (keyup)="onKeyUp()"></quill-editor>
+        <ngs-code-editor id="monaco" class="code-editor" *ngIf="document.mode == 'code'" (keyup)="onKeyUp()" styles="height:100%;" [theme]="theme"[codeModel]="codeModel" [options]="options" (valueChanged)="onCodeChanged($event)"></ngs-code-editor>
+        <quill-editor id="quill" *ngIf="document.mode != 'code'" [(ngModel)]="content" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="created($event)" (keyup)="onKeyUp()"></quill-editor>
     </div>
+
     <div class="menu" *ngIf="!document">
+
         <div class="new-document">
             <input class="new-document-title" (keyup)="titleFieldNew($event)" placeholder="Enter a name for your new document"><br>
             <select name="mode" id="input-select" (change)="modeFieldNew($event)">
@@ -27,7 +30,9 @@
             </select><br>
             <button id="create" class="new-document-create" type="button" (click)="createDocument()">Create</button>
         </div>
+
         <div class="existing-documents" *ngIf="documents.data">
+
             <div>
                 <h2 *ngIf="documents.data.myDocs" class="doc-category">My documents</h2>
                 <ul *ngFor="let doc of documents.data.myDocs">
@@ -38,6 +43,7 @@
                     </li>
                 </ul>
             </div>
+
             <div>
                 <h2 *ngIf="documents.data.sharedDocs" class="doc-category">Joined documents</h2>
                 <ul *ngFor="let doc of documents.data.sharedDocs">
@@ -47,6 +53,9 @@
                     </li>
                 </ul>
             </div>
+
         </div>
+        
     </div>
+
 </div>
