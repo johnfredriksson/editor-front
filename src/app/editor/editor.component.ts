@@ -235,8 +235,6 @@ export class EditorComponent implements OnInit {
               this.comments = document.comments;
             }
           }
-
-          console.log(this.documents)
           this.content = document.content;
           this.titleDoc = document.title;
           this.joinSocketRoom(document);
@@ -260,10 +258,20 @@ export class EditorComponent implements OnInit {
      */
     async saveAsPdf(): Promise<void> {
       if (this.editor) {
-        const html = htmlToPdfmake(this.editor.root.innerHTML);
+        let html;
+        const content = this.editor.getContents();
+        if (this.document.mode != "code") {
+          this.editor.formatText(0, this.editor.getLength(),
+          {background: "transparent"});
+          html = htmlToPdfmake(this.editor.root.innerHTML);
+        } else {
+          html = htmlToPdfmake(this.content);
+
+        }
         const documentDefinition = { content: html, info: { title: this.titleDoc } };
 
-        pdfMake.createPdf(documentDefinition).download(this.titleDoc + ".pdf"); 
+        pdfMake.createPdf(documentDefinition).download(this.titleDoc + ".pdf");
+        if (this.document.mode != "code") {this.editor.setContents(content)};
       }
     }
 
@@ -299,7 +307,6 @@ export class EditorComponent implements OnInit {
           return Math.round(Math.random() * (255 - 0));
         }
         const ranges = this.editor.getSelection();
-        console.log(ranges)
         const comment = prompt("Enter your comment");
         const color = `rgba(${rN()},${rN()},${rN()},0.8)`;
         const commentObject = {
@@ -363,6 +370,7 @@ export class EditorComponent implements OnInit {
             uri: 'main.json',
             value: data.content,
           };
+          console.log("getting")
         } else {
           this.editor?.setContents(JSON.parse(data.content));
           this.comments = data.comments;
@@ -383,8 +391,8 @@ export class EditorComponent implements OnInit {
         {_id: docID, newUser: newUser},
         {headers: {"x-access-token": this.token}})
         .subscribe({
-          next: (data:any) => {
-            console.log("data", data)
+          next: () => {
+            console.log("Invited!")
           },
           error: error => {
             if (error.status == 401) {

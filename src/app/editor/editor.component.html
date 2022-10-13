@@ -7,7 +7,7 @@
     <button id="download-button" *ngIf="document.mode != 'code'" type="button" aria-label="comment" (click)="comment()"><fa-icon [icon]="faComment"></fa-icon></button>
 </div>
 <div id="comments" class="comments" *ngIf="document && document.mode != 'code'">
-    <div class="comment" *ngFor="let comment of comments" style="backgroundColor:{{comment.color}};">
+    <div class="comment" *ngFor="let comment of comments" style="backgroundColor:{{comment.color}}">
         <p class="byline"><em>{{comment.author}} said:</em></p>
         <p class="comment-text">{{comment.text}}</p>
         <button class="comment-delete" type="button" aria-label="exit" (click)="deleteComment(comment)"><fa-icon [icon]="faClose"></fa-icon></button>
