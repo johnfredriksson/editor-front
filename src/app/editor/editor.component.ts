@@ -251,6 +251,7 @@ export class EditorComponent implements OnInit {
       this.document = undefined;
       this.content = undefined;
       this.titleDoc = undefined;
+      window.location.reload();
     }
 
     /**
@@ -408,6 +409,6 @@ export class EditorComponent implements OnInit {
      * Functions to fire on init
      */
   ngOnInit(): void {
-    this.setDocuments()
+    this.setDocuments();
   }
 }
